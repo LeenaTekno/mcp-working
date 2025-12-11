@@ -5,6 +5,17 @@ import { chromium } from "playwright";
 const app = express();
 app.use(bodyParser.json());
 
+// NEW: Respond to GET /mcp so ChatGPT does not time out
+app.get("/mcp", (req, res) => {
+  res.json({ status: "MCP server alive" });
+});
+
+// Root endpoint check
+app.get("/", (req, res) => {
+  res.send("MCP Server is running!");
+});
+
+// MCP POST endpoint
 app.post("/mcp", async (req, res) => {
   try {
     const message = req.body;
@@ -36,10 +47,6 @@ app.post("/mcp", async (req, res) => {
   } catch (err) {
     res.json({ error: err.message });
   }
-});
-
-app.get("/", (req, res) => {
-  res.send("MCP Server is running!");
 });
 
 const PORT = process.env.PORT || 3000;
