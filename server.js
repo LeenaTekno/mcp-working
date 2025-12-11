@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 
 // NEW: Respond to GET /mcp so ChatGPT does not time out
 app.get("/mcp", (req, res) => {
-  res.json({ status: "MCP server alive" });
+  res.json({ status: "MCP server is alive" });
 });
 
 // Root endpoint check
