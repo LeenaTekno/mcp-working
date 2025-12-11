@@ -5,17 +5,22 @@ import { chromium } from "playwright";
 const app = express();
 app.use(bodyParser.json());
 
-// NEW: Respond to GET /mcp so ChatGPT does not time out
+// ⭐ NEW: Fast health check endpoint (ChatGPT pings this before MCP handshake)
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+// ⭐ MCP GET endpoint so ChatGPT doesn't time out
 app.get("/mcp", (req, res) => {
   res.json({ status: "MCP server is alive" });
 });
 
-// Root endpoint check
+// Root endpoint to show server is running
 app.get("/", (req, res) => {
   res.send("MCP Server is running!");
 });
 
-// MCP POST endpoint
+// ⭐ MCP POST endpoint for tools
 app.post("/mcp", async (req, res) => {
   try {
     const message = req.body;
